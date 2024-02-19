@@ -238,7 +238,6 @@ protocol Vehicle {
     var trunkOrBodyVolume: Float { get }
     var currentTrunkVolume: Float { get set }
     var isStartedEngine: Bool { get set }
-    var isStopedEnigine: Bool { get set }
     var isOpenWindow: Bool { get set }
     var isMoving: Bool { get }
     
@@ -248,48 +247,20 @@ protocol Vehicle {
 
 protocol VehicleAction {
     var failureMessage: String { get }
-    func canPerform(on vehicle: Vehicle) -> Bool
+    mutating func canPerform(on vehicle: Vehicle) -> Bool
     func performAction(on vehicle: inout Vehicle)
 }
 
 protocol VehicleActionWithParameter {
-    var failureMessage: String { get }
-    mutating func canPerform(on vehicle: Vehicle) -> Bool
-    mutating func performAction(on vehicle: inout Vehicle, volume: Float)
-}
-
-extension VehicleAction {
-    func perform(on vehicle: inout Vehicle) {
-        if canPerform(on: vehicle) {
-            performAction(on: &vehicle)
-        } else {
-            print(failureMessage)
-        }
-    }
-}
-
-struct VehicleActionHandler {
-    static func performAction(_ action: ActionsWithCar, on vehicle: inout Vehicle) {
-        switch action {
-        case .startEngine:
-            StartEngineAction().perform(on: &vehicle)
-        case .stopEngine:
-            StopEngineAction().perform(on: &vehicle)
-        case .openWindows:
-            OpenWindowsAction().perform(on: &vehicle)
-        case .closeWindows: break
-            //CloseWindowsAction().perform(on: &vehicle)
-        case .loadUnloadCar(let volume):
-            var loadUnloadAction = LoadUnloadCarAction()
-            loadUnloadAction.performAction(on: &vehicle, volume: volume)
-        }
-    }
+    var failureMessage: String { get set }
+    mutating func canPerform(on vehicle: Vehicle, volume: Float) -> Bool
+    func performAction(on vehicle: inout Vehicle, volume: Float)
 }
 
 struct StartEngineAction: VehicleAction {
-    var failureMessage: String = "Двигатель уже работает"
+    var failureMessage: String = "Двигатель уже запущен"
     
-    func canPerform(on vehicle: Vehicle) -> Bool {
+    mutating func canPerform(on vehicle: Vehicle) -> Bool {
         return !vehicle.isStartedEngine
     }
     
@@ -300,98 +271,115 @@ struct StartEngineAction: VehicleAction {
 }
 
 struct StopEngineAction: VehicleAction {
-    var failureMessage: String = "Двигатель уже работает"
+    var failureMessage: String = "Двигатель уже остановлен"
     
-    func canPerform(on vehicle: Vehicle) -> Bool {
-        !vehicle.isStartedEngine
+    mutating func canPerform(on vehicle: Vehicle) -> Bool {
+        return vehicle.isStartedEngine
     }
     
     func performAction(on vehicle: inout Vehicle) {
-        vehicle.isStartedEngine = true
-        print("Двигатель запущен")
+        vehicle.isStartedEngine = false
+        print("Двигатель остановлен")
     }
 }
 
 struct OpenWindowsAction: VehicleAction {
-    var failureMessage: String = "Двери уже открыты"
+    var failureMessage: String = "Окна уже открыты"
     
-    func canPerform(on vehicle: Vehicle) -> Bool {
+    mutating func canPerform(on vehicle: Vehicle) -> Bool {
         !vehicle.isOpenWindow
     }
     
     func performAction(on vehicle: inout Vehicle) {
         vehicle.isOpenWindow = true
-        print("Открыл двери")
+        print("Окна открыты")
     }
 }
 
-struct SportCar: Vehicle {
-    var isMoving: Bool
-    
-    
-    let carBrand: ModelsCar
-    let year: String
-    let trunkOrBodyVolume: Float
-    var currentTrunkVolume: Float = 0
-    var isStartedEngine: Bool = false
-    var isStopedEnigine: Bool = false
-    var isOpenWindow: Bool = false
-    
-    mutating func performAction(_ action: ActionsWithCar) {}
-    
-    func printVehicleParameters() {}
-}
-
 struct LoadUnloadCarAction: VehicleActionWithParameter {
-    var failureMessage: String = "Невозможно выполнить операцию загрузки/выгрузки"
+    var failureMessage: String = "Операция невозможна"
     
-    mutating func canPerform(on vehicle: Vehicle) -> Bool {
+    mutating func canPerform(on vehicle: Vehicle, volume: Float) -> Bool {
         if vehicle.isMoving {
             failureMessage = "Операция невозможна: автомобиль находится в движении"
             return false
         }
-        return true
-    }
-    
-    mutating func canPerform(on vehicle: Vehicle, volume: Float) -> Bool {
-        if volume > 0 {
-            if vehicle.currentTrunkVolume + volume > vehicle.trunkOrBodyVolume {
-                failureMessage = "Превышен допустимый объем багажника"
-                return false
-            }
-        } else if volume < 0 {
-            let unloadVolume = abs(volume)
-            if vehicle.currentTrunkVolume < unloadVolume {
-                failureMessage = "Невозможно выгрузить больше, чем загружено"
-                return false
-            }
-        } else {
-            failureMessage = "Объем для загрузки/выгрузки не указан"
+        if volume > 0 && (vehicle.currentTrunkVolume + volume > vehicle.trunkOrBodyVolume) {
+            failureMessage = "Превышен допустимый объем багажника"
+            return false
+        }
+        if volume < 0 && abs(volume) > vehicle.currentTrunkVolume {
+            failureMessage = "Невозможно выгрузить больше, чем загружено"
             return false
         }
         return true
     }
     
-    mutating func performAction(on vehicle: inout Vehicle, volume: Float) {
-        if canPerform(on: vehicle, volume: volume) {
-            if volume > 0 {
-                vehicle.currentTrunkVolume += volume
-                print("Загружено \(volume) л. Объем груза: \(vehicle.currentTrunkVolume) л.")
-            } else {
-                let unloadVolume = abs(volume)
-                vehicle.currentTrunkVolume -= unloadVolume
-                print("Выгружено \(unloadVolume) л. Текущий объем груза: \(vehicle.currentTrunkVolume) л.")
-            }
+    func performAction(on vehicle: inout Vehicle, volume: Float) {
+        if volume > 0 {
+            vehicle.currentTrunkVolume += volume
+            print("Загружено \(volume) л. Объем груза: \(vehicle.currentTrunkVolume) л.")
         } else {
-            print(failureMessage)
+            vehicle.currentTrunkVolume += volume // Уже проверили, что выгрузка возможна
+            print("Выгружено \(abs(volume)) л. Текущий объем груза: \(vehicle.currentTrunkVolume) л.")
         }
     }
 }
 
+struct VehicleActionHandler {
+    static func performAction(_ action: ActionsWithCar, on vehicle: inout Vehicle) {
+        switch action {
+        case .startEngine:
+            StartEngineAction().performAction(on: &vehicle)
+        case .stopEngine:
+            StopEngineAction().performAction(on: &vehicle)
+        case .openWindows:
+            OpenWindowsAction().performAction(on: &vehicle)
+        case .closeWindows: break
+            // Должен быть реализован CloseWindowsAction аналогично OpenWindowsAction
+        case .loadUnloadCar(let volume):
+            var action = LoadUnloadCarAction()
+            action.performAction(on: &vehicle, volume: volume)
+        }
+    }
+}
 
-var mySportCar: Vehicle = SportCar(isMoving: true, carBrand: .Tesla, year: "2021", trunkOrBodyVolume: 500)
-VehicleActionHandler.performAction(.startEngine, on: &mySportCar)
-VehicleActionHandler.performAction(.startEngine, on: &mySportCar)
-VehicleActionHandler.performAction(.stopEngine, on: &mySportCar)
-VehicleActionHandler.performAction(.openWindows, on: &mySportCar)
-VehicleActionHandler.performAction(.loadUnloadCar(volume: 100), on: &mySportCar)
+struct SportCar: Vehicle {
+    var isMoving: Bool = false
+    
+    let carBrand: ModelsCar
+    let year: String
+    let trunkOrBodyVolume: Float
+    var currentTrunkVolume: Float
+    var isStartedEngine: Bool
+    var isOpenWindow: Bool
+    
+    mutating func performAction(_ action: ActionsWithCar) {
+        VehicleActionHandler.performAction(action, on: &self)
+    }
+    
+    func printVehicleParameters() {
+        print("Brand: \(carBrand)")
+        print("Year: \(year)")
+        print("Trunk Volume: \(trunkOrBodyVolume)")
+        print("Current Trunk Load: \(currentTrunkVolume)")
+        print("Engine Started: \(isStartedEngine)")
+        print("Windows Open: \(isOpenWindow)")
+        print("Is Moving: \(isMoving)")
+    }
+}
+
+extension SportCar {
+    
+}
+
+var myCar = SportCar(isMoving: false, carBrand: .Tesla, year: "2022", trunkOrBodyVolume: 500, currentTrunkVolume: 0, isStartedEngine: false, isStopedEnigine: true, isOpenWindow: false)
+
+// Выполнение различных действий
+VehicleActionHandler.performAction(.startEngine, on: &myCar)
+VehicleActionHandler.performAction(.stopEngine, on: &myCar)
+VehicleActionHandler.performAction(.openWindows, on: &myCar)
+VehicleActionHandler.performAction(.loadUnloadCar(volume: 100), on: &myCar)
+
+// Печать текущих параметров автомобиля
+myCar.printVehicleParameters()
