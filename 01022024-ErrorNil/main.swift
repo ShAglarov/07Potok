@@ -246,57 +246,81 @@ protocol Vehicle {
 }
 
 protocol VehicleAction {
-    static func perform(on vehicle: inout Vehicle, 
-                        withVolume volume: Float?)
+    var failureMessage: String { get }
+    func canPerform(on vehicle: Vehicle) -> Bool
+    func performAction(on vehicle: inout Vehicle)
+}
+
+protocol VehicleActionWithParameter {
+    var failureMessage: String { get }
+    func canPerform(on vehicle: Vehicle) -> Bool
+    mutating func performAction(on vehicle: inout Vehicle, volume: Float)
+}
+
+extension VehicleAction {
+    func perform(on vehicle: inout Vehicle) {
+        if canPerform(on: vehicle) {
+            performAction(on: &vehicle)
+        } else {
+            print(failureMessage)
+        }
+    }
 }
 
 struct VehicleActionHandler {
     static func performAction(_ action: ActionsWithCar, on vehicle: inout Vehicle) {
         switch action {
         case .startEngine:
-            StartEngineAction.perform(on: &vehicle)
+            StartEngineAction().perform(on: &vehicle)
         case .stopEngine:
-            StopEngineAction.perform(on: &vehicle)
-        case .openWindows: break
-            //OpenWindowsAction.perform(on: &vehicle)
+            StopEngineAction().perform(on: &vehicle)
+        case .openWindows:
+            OpenWindowsAction().perform(on: &vehicle)
         case .closeWindows: break
-            //CloseWindowsAction.perform(on: &vehicle)
+            //CloseWindowsAction().perform(on: &vehicle)
         case .loadUnloadCar(let volume):
-            LoadUnloadCarAction.perform(on: &vehicle, withVolume: volume)
+            var loadUnloadAction = LoadUnloadCarAction()
+            loadUnloadAction.performAction(on: &vehicle, volume: volume)
         }
     }
 }
 
 struct StartEngineAction: VehicleAction {
-    static func perform(on vehicle: inout Vehicle, withVolume volume: Float? = nil) {
-        guard !vehicle.isStartedEngine else {
-            print("Двигатель уже работает")
-            return
-        }
+    var failureMessage: String = "Двигатель уже работает"
+    
+    func canPerform(on vehicle: Vehicle) -> Bool {
+        return !vehicle.isStartedEngine
+    }
+    
+    func performAction(on vehicle: inout Vehicle) {
         vehicle.isStartedEngine = true
-        vehicle.isStopedEnigine = true
-        print("Двигатель запустился")
+        print("Двигатель запущен")
     }
 }
 
 struct StopEngineAction: VehicleAction {
-    static func perform(on vehicle: inout Vehicle, withVolume volume: Float? = nil) {
-        guard !vehicle.isStopedEnigine else {
-            print("Двигатель уже был заглушен")
-            return
-        }
-        
-        vehicle.isStopedEnigine = true
-        print("Вы заглушили двигатель")
+    var failureMessage: String = "Двигатель уже работает"
+    
+    func canPerform(on vehicle: Vehicle) -> Bool {
+        !vehicle.isStartedEngine
+    }
+    
+    func performAction(on vehicle: inout Vehicle) {
+        vehicle.isStartedEngine = true
+        print("Двигатель запущен")
     }
 }
 
 struct OpenWindowsAction: VehicleAction {
-    static func perform(on vehicle: inout Vehicle, withVolume volume: Float?) {
-        guard !vehicle.isStopedEnigine else {
-            print("Двигатель уже был заглушен")
-            return
-        }
+    var failureMessage: String = "Двери уже открыты"
+    
+    func canPerform(on vehicle: Vehicle) -> Bool {
+        !vehicle.isOpenWindow
+    }
+    
+    func performAction(on vehicle: inout Vehicle) {
+        vehicle.isOpenWindow = true
+        print("Открыл двери")
     }
 }
 
@@ -319,16 +343,40 @@ struct SportCar: Vehicle {
     }
 }
 
-struct LoadUnloadCarAction: VehicleAction {
-    static func perform(on vehicle: inout Vehicle, withVolume volume: Float? = nil) {
-        guard let volume = volume else { return }
-        
-        let newVolume = vehicle.currentTrunkVolume + volume
-        if newVolume >= 0 && newVolume <= vehicle.trunkOrBodyVolume {
-            vehicle.currentTrunkVolume = newVolume
-            print("Объём груза обновлен. Текущий объем: \(vehicle.currentTrunkVolume).")
+struct LoadUnloadCarAction: VehicleActionWithParameter {
+
+    var failureMessage: String = "Невозможно выполнить операцию загрузки/выгрузки"
+    
+    // Этот метод должен быть адаптирован в зависимости от того, как вы хотите обрабатывать загрузку и выгрузку
+    func canPerform(on vehicle: Vehicle) -> Bool {
+        // Здесь может быть логика проверки, например, проверка наличия достаточного места для загрузки
+        // или возможности выгрузки (т.е. багажник не пустой при попытке выгрузки)
+        true // По умолчанию возвращаем true для простоты
+    }
+    
+    mutating func performAction(on vehicle: inout Vehicle, volume: Float) {
+        // Логика для определения, является ли операция загрузкой или выгрузкой
+        if volume > 0 {
+            // Пытаемся загрузить
+            if vehicle.currentTrunkVolume + volume <= vehicle.trunkOrBodyVolume {
+                vehicle.currentTrunkVolume += volume
+                print("Загружено \(volume) л. Объем груза: \(vehicle.currentTrunkVolume) л.")
+            } else {
+                failureMessage = "Превышен допустимый объем багажника"
+                print(failureMessage)
+            }
+        } else if volume < 0 {
+            // Пытаемся выгрузить
+            let unloadVolume = abs(volume)
+            if vehicle.currentTrunkVolume >= unloadVolume {
+                vehicle.currentTrunkVolume -= unloadVolume
+                print("Выгружено \(unloadVolume) л. Текущий объем груза: \(vehicle.currentTrunkVolume) л.")
+            } else {
+                failureMessage = "Невозможно выгрузить больше, чем загружено"
+                print(failureMessage)
+            }
         } else {
-            print("Неверная операция. Громкость за пределами.")
+            print("Объем для загрузки/выгрузки не указан")
         }
     }
 }
@@ -338,4 +386,5 @@ var mySportCar: Vehicle = SportCar(carBrand: .Tesla, year: "2021", trunkOrBodyVo
 VehicleActionHandler.performAction(.startEngine, on: &mySportCar)
 VehicleActionHandler.performAction(.startEngine, on: &mySportCar)
 VehicleActionHandler.performAction(.stopEngine, on: &mySportCar)
+VehicleActionHandler.performAction(.openWindows, on: &mySportCar)
 VehicleActionHandler.performAction(.loadUnloadCar(volume: 100), on: &mySportCar)
