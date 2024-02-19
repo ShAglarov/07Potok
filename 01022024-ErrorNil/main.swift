@@ -240,6 +240,7 @@ protocol Vehicle {
     var isStartedEngine: Bool { get set }
     var isStopedEnigine: Bool { get set }
     var isOpenWindow: Bool { get set }
+    var isMoving: Bool { get }
     
     mutating func performAction(_ action: ActionsWithCar)
     func printVehicleParameters()
@@ -253,7 +254,7 @@ protocol VehicleAction {
 
 protocol VehicleActionWithParameter {
     var failureMessage: String { get }
-    func canPerform(on vehicle: Vehicle) -> Bool
+    mutating func canPerform(on vehicle: Vehicle) -> Bool
     mutating func performAction(on vehicle: inout Vehicle, volume: Float)
 }
 
@@ -325,6 +326,8 @@ struct OpenWindowsAction: VehicleAction {
 }
 
 struct SportCar: Vehicle {
+    var isMoving: Bool
+    
     
     let carBrand: ModelsCar
     let year: String
@@ -334,55 +337,59 @@ struct SportCar: Vehicle {
     var isStopedEnigine: Bool = false
     var isOpenWindow: Bool = false
     
-    mutating func performAction(_ action: ActionsWithCar) {
-        // Determine which action to perform and call the corresponding action interface
-    }
+    mutating func performAction(_ action: ActionsWithCar) {}
     
-    func printVehicleParameters() {
-        // Implementation remains the same
-    }
+    func printVehicleParameters() {}
 }
 
 struct LoadUnloadCarAction: VehicleActionWithParameter {
-
     var failureMessage: String = "Невозможно выполнить операцию загрузки/выгрузки"
     
-    // Этот метод должен быть адаптирован в зависимости от того, как вы хотите обрабатывать загрузку и выгрузку
-    func canPerform(on vehicle: Vehicle) -> Bool {
-        // Здесь может быть логика проверки, например, проверка наличия достаточного места для загрузки
-        // или возможности выгрузки (т.е. багажник не пустой при попытке выгрузки)
-        true // По умолчанию возвращаем true для простоты
+    mutating func canPerform(on vehicle: Vehicle) -> Bool {
+        if vehicle.isMoving {
+            failureMessage = "Операция невозможна: автомобиль находится в движении"
+            return false
+        }
+        return true
+    }
+    
+    mutating func canPerform(on vehicle: Vehicle, volume: Float) -> Bool {
+        if volume > 0 {
+            if vehicle.currentTrunkVolume + volume > vehicle.trunkOrBodyVolume {
+                failureMessage = "Превышен допустимый объем багажника"
+                return false
+            }
+        } else if volume < 0 {
+            let unloadVolume = abs(volume)
+            if vehicle.currentTrunkVolume < unloadVolume {
+                failureMessage = "Невозможно выгрузить больше, чем загружено"
+                return false
+            }
+        } else {
+            failureMessage = "Объем для загрузки/выгрузки не указан"
+            return false
+        }
+        return true
     }
     
     mutating func performAction(on vehicle: inout Vehicle, volume: Float) {
-        // Логика для определения, является ли операция загрузкой или выгрузкой
-        if volume > 0 {
-            // Пытаемся загрузить
-            if vehicle.currentTrunkVolume + volume <= vehicle.trunkOrBodyVolume {
+        if canPerform(on: vehicle, volume: volume) {
+            if volume > 0 {
                 vehicle.currentTrunkVolume += volume
                 print("Загружено \(volume) л. Объем груза: \(vehicle.currentTrunkVolume) л.")
             } else {
-                failureMessage = "Превышен допустимый объем багажника"
-                print(failureMessage)
-            }
-        } else if volume < 0 {
-            // Пытаемся выгрузить
-            let unloadVolume = abs(volume)
-            if vehicle.currentTrunkVolume >= unloadVolume {
+                let unloadVolume = abs(volume)
                 vehicle.currentTrunkVolume -= unloadVolume
                 print("Выгружено \(unloadVolume) л. Текущий объем груза: \(vehicle.currentTrunkVolume) л.")
-            } else {
-                failureMessage = "Невозможно выгрузить больше, чем загружено"
-                print(failureMessage)
             }
         } else {
-            print("Объем для загрузки/выгрузки не указан")
+            print(failureMessage)
         }
     }
 }
 
 
-var mySportCar: Vehicle = SportCar(carBrand: .Tesla, year: "2021", trunkOrBodyVolume: 500)
+var mySportCar: Vehicle = SportCar(isMoving: true, carBrand: .Tesla, year: "2021", trunkOrBodyVolume: 500)
 VehicleActionHandler.performAction(.startEngine, on: &mySportCar)
 VehicleActionHandler.performAction(.startEngine, on: &mySportCar)
 VehicleActionHandler.performAction(.stopEngine, on: &mySportCar)
