@@ -345,27 +345,31 @@ struct VehicleActionHandler {
 }
 
 struct SportCar: Vehicle {
-    var isMoving: Bool = false
+    var carBrand: ModelsCar
     
-    let carBrand: ModelsCar
-    let year: String
-    let trunkOrBodyVolume: Float
+    var year: String
+    
+    var trunkOrBodyVolume: Float
+    
     var currentTrunkVolume: Float
+    
     var isStartedEngine: Bool
+    
     var isOpenWindow: Bool
     
+    var isMoving: Bool
+    
     mutating func performAction(_ action: ActionsWithCar) {
-        VehicleActionHandler.performAction(action, on: &self)
+        <#code#>
     }
     
     func printVehicleParameters() {
-        print("Brand: \(carBrand)")
-        print("Year: \(year)")
-        print("Trunk Volume: \(trunkOrBodyVolume)")
-        print("Current Trunk Load: \(currentTrunkVolume)")
-        print("Engine Started: \(isStartedEngine)")
-        print("Windows Open: \(isOpenWindow)")
-        print("Is Moving: \(isMoving)")
+        print("Марка автомобиля: \(carBrand)")
+        print("Год выпуска: \(year)")
+        print("Объем багажника: \(trunkOrBodyVolume) литров")
+        print("Текущий объем груза в багажнике: \(currentTrunkVolume) литров")
+        print("Двигатель запущен: \(isStartedEngine ? "Да" : "Нет")")
+        print("Окна открыты: \(isOpenWindow ? "Да" : "Нет")")
     }
 }
 
@@ -373,13 +377,13 @@ extension SportCar {
     
 }
 
-var myCar = SportCar(isMoving: false, carBrand: .Tesla, year: "2022", trunkOrBodyVolume: 500, currentTrunkVolume: 0, isStartedEngine: false, isStopedEnigine: true, isOpenWindow: false)
-
-// Выполнение различных действий
-VehicleActionHandler.performAction(.startEngine, on: &myCar)
-VehicleActionHandler.performAction(.stopEngine, on: &myCar)
-VehicleActionHandler.performAction(.openWindows, on: &myCar)
-VehicleActionHandler.performAction(.loadUnloadCar(volume: 100), on: &myCar)
-
-// Печать текущих параметров автомобиля
-myCar.printVehicleParameters()
+//var myCar = SportCar(
+//
+//// Выполнение различных действий
+//VehicleActionHandler.performAction(.startEngine, on: &myCar)
+//VehicleActionHandler.performAction(.stopEngine, on: &myCar)
+//VehicleActionHandler.performAction(.openWindows, on: &myCar)
+//VehicleActionHandler.performAction(.loadUnloadCar(volume: 100), on: &myCar)
+//
+//// Печать текущих параметров автомобиля
+//myCar.printVehicleParameters()
