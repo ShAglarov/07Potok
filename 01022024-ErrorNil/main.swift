@@ -50,6 +50,7 @@ extension VehicleActionWithParameter {
             print(failureMessage)
         } else {
             performAction(on: &vehicle, volume: volume)
+            print(successMessage)
         }
     }
 }
