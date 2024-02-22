@@ -9,19 +9,24 @@ enum ModelsCar {
     case Mersedes
 }
 
+enum LoadUnload {
+    case load
+    case unload
+}
+
 enum ActionsWithCar {
     case moving
     case startEngine
     case stopEngine
     case openWindows
     case closeWindows
-    case loadUnloadCar(volume: Float)
+    case loadUnloadCar(action: LoadUnload, volume: Float)
 }
 
 protocol Vehicle {
     var carBrand: ModelsCar { get }
     var year: String { get }
-    var trunkOrBodyVolume: Float { get }
+    var trunkOrBodyVolume: Float { get set }
     var currentTrunkVolume: Float { get set }
     var isStartedEngine: Bool { get set }
     var isStopedEnigine: Bool { get set }
@@ -40,16 +45,16 @@ protocol VehicleAction {
 protocol VehicleActionWithParameter {
     var successMessage: String { get }
     var failureMessage: String { get }
-    mutating func canPerform(on vehicle: Vehicle, volume: Float) -> Bool
-    mutating func performAction(on vehicle: inout Vehicle, volume: Float)
+    mutating func canPerform(on vehicle: Vehicle, action: LoadUnload, volume: Float) -> Bool
+    mutating func performAction(on vehicle: inout Vehicle, action: LoadUnload, volume: Float)
 }
 
 extension VehicleActionWithParameter {
-    mutating func perform(on vehicle: inout Vehicle, volume: Float) {
-        if !canPerform(on: vehicle, volume: volume) {
+    mutating func perform(on vehicle: inout Vehicle, action: LoadUnload, volume: Float) {
+        if !canPerform(on: vehicle, action: action, volume: volume) {
             print(failureMessage)
         } else {
-            performAction(on: &vehicle, volume: volume)
+            performAction(on: &vehicle, action: action, volume: volume)
             print(successMessage)
         }
     }
@@ -76,9 +81,9 @@ struct VehicleActionHandler {
             OpenWindowsAction().perform(on: &vehicle)
         case .closeWindows:
             CloseWindowsAction().perform(on: &vehicle)
-        case .loadUnloadCar(let volume):
+        case .loadUnloadCar(let action, let volume):
             var loadUnloadAction = LoadUnloadCarAction()
-            loadUnloadAction.perform(on: &vehicle, volume: volume)
+            loadUnloadAction.perform(on: &vehicle, action: action, volume: volume)
         case .moving:
             MovingActions().perform(on: &vehicle)
         }
@@ -167,39 +172,37 @@ struct CloseWindowsAction: VehicleAction {
 }
 
 struct LoadUnloadCarAction: VehicleActionWithParameter {
-    var successMessage = "Операция загрузки/выгрузки прошла успешна"
-    var failureMessage = String()
+    var successMessage = "Операция прошла успешна"
+    var failureMessage = ""
     
-    mutating func canPerform(on vehicle: Vehicle, volume: Float) -> Bool {
+    mutating func canPerform(on vehicle: Vehicle, action: LoadUnload, volume: Float) -> Bool {
         failureMessage = "Операция невозможна: автомобиль находится в движении"
         guard !vehicle.isMoving else { return false }
-        
-        if volume > 0 {
+        switch action {
+        case .load:
             if vehicle.currentTrunkVolume + volume > vehicle.trunkOrBodyVolume {
                 failureMessage = "Превышен допустимый объем багажника"
                 return false
             }
-        } else if volume < 0 {
-            let unloadVolume = abs(volume)
-            if vehicle.currentTrunkVolume < unloadVolume {
+        case .unload:
+            if vehicle.currentTrunkVolume - volume < 0 {
                 failureMessage = "Невозможно выгрузить больше, чем загружено"
                 return false
             }
-        } else {
-            failureMessage = "Объем для загрузки/выгрузки не указан"
-            return false
         }
         return true
     }
     
-    mutating func performAction(on vehicle: inout Vehicle, volume: Float) {
-        if volume > 0 {
+    mutating func performAction(on vehicle: inout Vehicle, action: LoadUnload, volume: Float) {
+        switch action {
+        case .load:
             vehicle.currentTrunkVolume += volume
-            print("Загружено \(volume) л. Объем груза: \(vehicle.currentTrunkVolume) л.")
-        } else {
-            let unloadVolume = abs(volume)
-            vehicle.currentTrunkVolume -= unloadVolume
-            print("Выгружено \(unloadVolume) л. Текущий объем груза: \(vehicle.currentTrunkVolume) л.")
+            vehicle.trunkOrBodyVolume -= volume
+            print("Загружено \(volume) л. Объем груза: \(vehicle.currentTrunkVolume) л. Свободного места: \(vehicle.trunkOrBodyVolume)")
+        case .unload:
+            vehicle.currentTrunkVolume -= volume
+            vehicle.trunkOrBodyVolume += volume
+            print("Выгружено \(volume) л. Текущий объем груза: \(vehicle.currentTrunkVolume) л. Свободного места: \(vehicle.trunkOrBodyVolume)")
         }
     }
 }
@@ -207,7 +210,7 @@ struct LoadUnloadCarAction: VehicleActionWithParameter {
 struct SportCar: Vehicle {
     let carBrand: ModelsCar
     let year: String
-    let trunkOrBodyVolume: Float
+    var trunkOrBodyVolume: Float
     var currentTrunkVolume: Float = 0
     var isStartedEngine: Bool = false
     var isStopedEnigine: Bool = false
@@ -230,7 +233,7 @@ struct TrunkCar: Vehicle {
 
 func startGame(car: inout Vehicle, vehicleHandler: VehicleActionHandler) {
     vehicleHandler.performAction(.startEngine, on: &car) //Завел двигатель
-    vehicleHandler.performAction(.startEngine, on: &car) //Завел двигатель
+    vehicleHandler.performAction(.startEngine, on: &car) //Двигатель уже заведен
     vehicleHandler.performAction(.stopEngine, on: &car) //Заглушил двигатель
     vehicleHandler.performAction(.openWindows, on: &car) //Открыл окна
     vehicleHandler.performAction(.startEngine, on: &car) //Завел двигатель
@@ -240,9 +243,18 @@ func startGame(car: inout Vehicle, vehicleHandler: VehicleActionHandler) {
     vehicleHandler.performAction(.moving, on: &car) // Сначала нужно завести машину
     vehicleHandler.performAction(.startEngine, on: &car) //Завел двигатель
     vehicleHandler.performAction(.moving, on: &car) // Машина тронулась
-    vehicleHandler.performAction(.loadUnloadCar(volume: 90), on: &car) //Операция невозможна: автомобиль находится в движении
+    vehicleHandler.performAction(.loadUnloadCar(action: .load, volume: 50), on: &car) //Операция невозможна: автомобиль находится в движении
     vehicleHandler.performAction(.stopEngine, on: &car) // Заглушил двигатель
-    vehicleHandler.performAction(.loadUnloadCar(volume: 90), on: &car) // Загружено 90.0 л. Объем груза: 90.0 л.
+    vehicleHandler.performAction(.loadUnloadCar(action: .unload, volume: 30), on: &car) // Невозможно выгрузить больше, чем загружено
+    vehicleHandler.performAction(.moving, on: &car) // Сначала нужно завести машину
+    vehicleHandler.performAction(.loadUnloadCar(action: .unload, volume: 201), on: &car) //Невозможно выгрузить больше, чем загружено
+    vehicleHandler.performAction(.moving, on: &car) // Сначала нужно завести машину
+    vehicleHandler.performAction(.startEngine, on: &car) // Завел двигатель
+    vehicleHandler.performAction(.moving, on: &car) // Машина тронулась
+    vehicleHandler.performAction(.loadUnloadCar(action: .load, volume: 30), on: &car) //Операция невозможна: автомобиль находится в движении
+    vehicleHandler.performAction(.stopEngine, on: &car) //Заглушил двигатель
+    vehicleHandler.performAction(.loadUnloadCar(action: .load, volume: 30), on: &car) // Загружено 30.0 л. Объем груза: 30.0 л. Свободного места: 70.0
+    vehicleHandler.performAction(.loadUnloadCar(action: .unload, volume: 10), on: &car) // Выгружено 10.0 л. Текущий объем груза: 20.0 л. Свободного места: 80.0
 }
 
 var mySportCar: Vehicle = SportCar(carBrand: .Tesla, year: "2021", trunkOrBodyVolume: 100)
