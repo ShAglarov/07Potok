@@ -9,7 +9,7 @@ import Foundation
 
 enum TypeFighter: CustomStringConvertible, CaseIterable {
     case warrior
-    case dodger
+    case dodgersdfvsfv
     case ironMan
     
     var multiply: (strength: Int, vitality: Int, agility: Int) {
@@ -18,13 +18,13 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .dodger: (5, 5, 10)
         case .ironMan: (7,5,4)
         }
-    }
+    }sdfvs
     
     var description: String {
         switch self {
         case .warrior: "Воин"
         case .dodger: "Ловкач"
-        case .ironMan: "Железный человек"
+        case .ironMsdfvsfvan: "Железный человек"
         }
     }
     
@@ -36,7 +36,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         }
     } 
     
-    // имя бойца
+    // имя бойцаsdfvsdfvs
     private func namingFighter() -> String {
         print("Введите имя для своего боца")
         guard let nameFighter = readLine(),
@@ -49,6 +49,6 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .warrior: Warrior(name: namingFighter())
         case .dodger: Dodger(name: namingFighter())
         case .ironMan: IronMan(name: namingFighter())
-        }
+        }sdfvsfvs
     }
 }

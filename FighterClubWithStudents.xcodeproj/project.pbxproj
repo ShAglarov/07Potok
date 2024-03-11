@@ -14,6 +14,7 @@
 		4B55413F2B9F4FAC0065C62E /* IronMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55413E2B9F4FAC0065C62E /* IronMan.swift */; };
 		4B5541412B9F4FCF0065C62E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541402B9F4FCF0065C62E /* Game.swift */; };
 		4B5541432B9F4FEC0065C62E /* TypeFighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541422B9F4FEC0065C62E /* TypeFighter.swift */; };
+		4B5541452B9F70270065C62E /* sdfsdfv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541442B9F70270065C62E /* sdfsdfv.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,7 @@
 		4B55413E2B9F4FAC0065C62E /* IronMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IronMan.swift; sourceTree = "<group>"; };
 		4B5541402B9F4FCF0065C62E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		4B5541422B9F4FEC0065C62E /* TypeFighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeFighter.swift; sourceTree = "<group>"; };
+		4B5541442B9F70270065C62E /* sdfsdfv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sdfsdfv.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			children = (
 				4B5541302B9F4E680065C62E /* main.swift */,
 				4B5541372B9F4F0D0065C62E /* Fighter.swift */,
+				4B5541442B9F70270065C62E /* sdfsdfv.swift */,
 				4B5541402B9F4FCF0065C62E /* Game.swift */,
 				4B5541422B9F4FEC0065C62E /* TypeFighter.swift */,
 				4B55413D2B9F4F610065C62E /* Heroes */,
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B5541452B9F70270065C62E /* sdfsdfv.swift in Sources */,
 				4B55413C2B9F4F500065C62E /* Dodger.swift in Sources */,
 				4B5541412B9F4FCF0065C62E /* Game.swift in Sources */,
 				4B55413A2B9F4F3E0065C62E /* Warrior.swift in Sources */,

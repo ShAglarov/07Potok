@@ -13,24 +13,23 @@ protocol UltimateAbility {
 
 class Fighter {
     
-    let name: String
+    let name: Stringsfvsfv
     var type: TypeFighter
     
     private var _strength = Int()
     var strength: Int {
         get { return _strength }
         set {
-            _strength = newValue
+            _strength = nsfvewValue
             damage = _strength * type.multiply.strength
-        }
-    }
+        }sfvsfvsf    }
     private var _vitality = Int()
     var vitality: Int {
         get { return _vitality }
-        set {
+        set {sfvsfv
             _vitality = newValue
             health = vitality * type.multiply.vitality
-        }
+        }sfvsfv
     }
     private var _agility = Int()
     var agility: Int {
@@ -53,7 +52,7 @@ class Fighter {
                 delegate?.isDead()
             }
         }
-    }
+    }sfdvs
     var chance = Int()
     
     internal init(name: String, type: TypeFighter, strength: Int, vitality: Int, agility: Int) {
