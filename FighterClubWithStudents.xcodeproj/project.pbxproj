@@ -14,6 +14,10 @@
 		4B55413F2B9F4FAC0065C62E /* IronMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55413E2B9F4FAC0065C62E /* IronMan.swift */; };
 		4B5541412B9F4FCF0065C62E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541402B9F4FCF0065C62E /* Game.swift */; };
 		4B5541432B9F4FEC0065C62E /* TypeFighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541422B9F4FEC0065C62E /* TypeFighter.swift */; };
+		9AF533962BA0C0CD004E5F90 /* Wolverine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF533952BA0C0CD004E5F90 /* Wolverine.swift */; };
+		9AF533982BA0C15D004E5F90 /* StefanGameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF533972BA0C15D004E5F90 /* StefanGameExtension.swift */; };
+		9AF5339A2BA0C19A004E5F90 /* StefanFighterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF533992BA0C19A004E5F90 /* StefanFighterExtension.swift */; };
+		9AF5339C2BA0C1AE004E5F90 /* StefanTypeFighterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF5339B2BA0C1AE004E5F90 /* StefanTypeFighterExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +41,10 @@
 		4B55413E2B9F4FAC0065C62E /* IronMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IronMan.swift; sourceTree = "<group>"; };
 		4B5541402B9F4FCF0065C62E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		4B5541422B9F4FEC0065C62E /* TypeFighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeFighter.swift; sourceTree = "<group>"; };
+		9AF533952BA0C0CD004E5F90 /* Wolverine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wolverine.swift; sourceTree = "<group>"; };
+		9AF533972BA0C15D004E5F90 /* StefanGameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StefanGameExtension.swift; sourceTree = "<group>"; };
+		9AF533992BA0C19A004E5F90 /* StefanFighterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StefanFighterExtension.swift; sourceTree = "<group>"; };
+		9AF5339B2BA0C1AE004E5F90 /* StefanTypeFighterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StefanTypeFighterExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +77,7 @@
 		4B55412F2B9F4E680065C62E /* FighterClubWithStudents */ = {
 			isa = PBXGroup;
 			children = (
+				9AF533942BA0C015004E5F90 /* StefanExtension */,
 				4B5541302B9F4E680065C62E /* main.swift */,
 				4B5541372B9F4F0D0065C62E /* Fighter.swift */,
 				4B5541402B9F4FCF0065C62E /* Game.swift */,
@@ -84,8 +93,19 @@
 				4B5541392B9F4F3E0065C62E /* Warrior.swift */,
 				4B55413B2B9F4F500065C62E /* Dodger.swift */,
 				4B55413E2B9F4FAC0065C62E /* IronMan.swift */,
+				9AF533952BA0C0CD004E5F90 /* Wolverine.swift */,
 			);
 			path = Heroes;
+			sourceTree = "<group>";
+		};
+		9AF533942BA0C015004E5F90 /* StefanExtension */ = {
+			isa = PBXGroup;
+			children = (
+				9AF533972BA0C15D004E5F90 /* StefanGameExtension.swift */,
+				9AF533992BA0C19A004E5F90 /* StefanFighterExtension.swift */,
+				9AF5339B2BA0C1AE004E5F90 /* StefanTypeFighterExtension.swift */,
+			);
+			path = StefanExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,12 +166,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AF5339C2BA0C1AE004E5F90 /* StefanTypeFighterExtension.swift in Sources */,
 				4B55413C2B9F4F500065C62E /* Dodger.swift in Sources */,
 				4B5541412B9F4FCF0065C62E /* Game.swift in Sources */,
+				9AF533982BA0C15D004E5F90 /* StefanGameExtension.swift in Sources */,
 				4B55413A2B9F4F3E0065C62E /* Warrior.swift in Sources */,
 				4B5541312B9F4E680065C62E /* main.swift in Sources */,
 				4B5541432B9F4FEC0065C62E /* TypeFighter.swift in Sources */,
+				9AF533962BA0C0CD004E5F90 /* Wolverine.swift in Sources */,
 				4B55413F2B9F4FAC0065C62E /* IronMan.swift in Sources */,
+				9AF5339A2BA0C19A004E5F90 /* StefanFighterExtension.swift in Sources */,
 				4B5541382B9F4F0D0065C62E /* Fighter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
