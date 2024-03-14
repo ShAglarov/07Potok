@@ -23,6 +23,7 @@ final class Game {
         player1 = selectedType()
         player1?.delegate = self
         print("ИГРОК 2 СОЗДАЕТ БОЙЦА")
+        //MARK: - реализовать раздачу очков боцам и реализовать бойца Годзила
         player2 = selectedType()
         player2?.delegate = self
     }
