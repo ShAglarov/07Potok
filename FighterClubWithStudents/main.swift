@@ -12,4 +12,4 @@ import Foundation
 let game = Game()
 
 game.selectedType()
-
+game.startGame()

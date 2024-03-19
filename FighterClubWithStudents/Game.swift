@@ -1,9 +1,4 @@
-//
-//  Game.swift
-//  FighterClubWithStudents
-//
-//  Created by Shamil Aglarov on 11.03.2024.
-//
+
 
 import Foundation
 
@@ -19,14 +14,64 @@ final class Game {
     var round: Int = 1
     
     func startGame() {
-        print("ИГРОК 1 СОЗДАЕТ БОЙЦА")
-        player1 = selectedType()
-        player1?.delegate = self
-        print("ИГРОК 2 СОЗДАЕТ БОЙЦА")
-        //MARK: - реализовать раздачу очков бойцам и реализовать бойца Годзила
-        player2 = selectedType()
-        player2?.delegate = self
+        var maxPointsForFighter: Int = 10
+        var countFighter: Int = 0
+        while true {
+            print("выберите кол-во бойцов на ринге")
+            countFighter = Int(readLine() ?? "0") ?? 0
+            if countFighter <= 0 {
+                print("количество бойцов должно быть больше нуля")
+                continue
+            }
+            break
+        }
+       
+        var attempDistributionForFighter = 1 // попытки распределения очков для бойцов
+        
+        distributionPoints(player: player1, maxPoints: maxPointsForFighter)
+        distributionPoints(player: player2, maxPoints: maxPointsForFighter)
+//        while attempDistributionForFighter == countFighter {
+//            
+//            
+//            print("ИГРОК 1 СОЗДАЕТ БОЙЦА")
+//            player1 = selectedType()
+//            player1?.delegate = self
+//            print("ИГРОК 2 СОЗДАЕТ БОЙЦА")
+//            //MARK: - реализовать раздачу очков бойцам и реализовать бойца Годзила
+//            player2 = selectedType()
+//            player2?.delegate = self
+//        }
     }
+    
+    func distributionPoints(player: Fighter?, maxPoints: Int) {
+        print("Добро пожаловать на ринг! \(String(describing: player?.name))")
+        print(" \(player?.name ?? " ") Перед стартом битвы разделите очки умения персонажа")
+        print("У вас \(maxPoints) очков, сколько очков вы распределите для силы")
+        var choicePlayer = Int(readLine() ?? "0") ?? 0
+        if isPointsMoreOrEqualMax(maxOint: maxPoints, choicePlayer: choicePlayer) {
+            choicePlayer = maxPoints
+            print("остальные умения распределяются по 0 очков")
+            player?.agility = 0
+            player?.vitality = 0
+        }
+        var remainPoints = maxPoints - choicePlayer
+        print("У вас \(remainPoints) очков, сколько очков вы распределите для ловкости")
+        choicePlayer = Int(readLine() ?? "0") ?? 0
+        if isPointsMoreOrEqualMax(maxOint: maxPoints, choicePlayer: choicePlayer) {
+            choicePlayer = maxPoints
+            print("очки выносливости равны по 0 очков")
+            
+            player?.vitality = 0
+        }
+        remainPoints -= choicePlayer
+        print("для выносливости осталось \(remainPoints) очков")
+    }
+    
+    func isPointsMoreOrEqualMax(maxOint: Int, choicePlayer: Int) -> Bool {//бо льше ли выбранное кол-во очков максимального
+        return choicePlayer >= maxOint
+    }
+    
+    
     
     func startFighting() {
         while !isGameOver {
