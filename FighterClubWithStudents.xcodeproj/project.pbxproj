@@ -14,6 +14,7 @@
 		4B55413F2B9F4FAC0065C62E /* IronMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55413E2B9F4FAC0065C62E /* IronMan.swift */; };
 		4B5541412B9F4FCF0065C62E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541402B9F4FCF0065C62E /* Game.swift */; };
 		4B5541432B9F4FEC0065C62E /* TypeFighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541422B9F4FEC0065C62E /* TypeFighter.swift */; };
+		C56BBB8F2BA9F0F900680149 /* Godzila.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56BBB8E2BA9F0F900680149 /* Godzila.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,7 @@
 		4B55413E2B9F4FAC0065C62E /* IronMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IronMan.swift; sourceTree = "<group>"; };
 		4B5541402B9F4FCF0065C62E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		4B5541422B9F4FEC0065C62E /* TypeFighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeFighter.swift; sourceTree = "<group>"; };
+		C56BBB8E2BA9F0F900680149 /* Godzila.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Godzila.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				4B5541392B9F4F3E0065C62E /* Warrior.swift */,
 				4B55413B2B9F4F500065C62E /* Dodger.swift */,
 				4B55413E2B9F4FAC0065C62E /* IronMan.swift */,
+				C56BBB8E2BA9F0F900680149 /* Godzila.swift */,
 			);
 			path = Heroes;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			files = (
 				4B55413C2B9F4F500065C62E /* Dodger.swift in Sources */,
 				4B5541412B9F4FCF0065C62E /* Game.swift in Sources */,
+				C56BBB8F2BA9F0F900680149 /* Godzila.swift in Sources */,
 				4B55413A2B9F4F3E0065C62E /* Warrior.swift in Sources */,
 				4B5541312B9F4E680065C62E /* main.swift in Sources */,
 				4B5541432B9F4FEC0065C62E /* TypeFighter.swift in Sources */,
