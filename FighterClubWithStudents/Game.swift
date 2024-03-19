@@ -12,27 +12,81 @@ protocol IsDeadDelegate {
 }
 
 final class Game {
+    private var numberOfPlayers = 0 // количесвто игровок
+    
+    private var listOfPlayers = [Fighter?]()
     private var player1: Fighter?
     private var player2: Fighter?
     
     var isGameOver: Bool = false
     var round: Int = 1
     
+//    func startGame() {
+//        print("ИГРОК 1 СОЗДАЕТ БОЙЦА")
+//        player1 = selectedType()
+//        player1?.delegate = self
+//        print("ИГРОК 2 СОЗДАЕТ БОЙЦА")
+//        player2 = selectedType()
+//        player2?.delegate = self
+//    }
+    
+    /// Функция реализует  выбор колличества игроков и присваивает это значени переменной numberOfPlayers.
+    /// И создается выбранное количестов игроков
     func startGame() {
-        print("ИГРОК 1 СОЗДАЕТ БОЙЦА")
-        player1 = selectedType()
-        player1?.delegate = self
-        print("ИГРОК 2 СОЗДАЕТ БОЙЦА")
-        player2 = selectedType()
-        player2?.delegate = self
+        print("Введите количество игроков (2 - n): ", terminator: "")
+        guard let numPlayers = Int(readLine() ?? "0"),
+              numPlayers >= 2 else {
+            print("Некорректное количество игроков. Игроков не может быт меньшу двух. Повторите попытку")
+            
+            return startGame()
+        }
+        
+        numberOfPlayers = numPlayers
+        
+        // Цикл добавляет в список созданных игроков
+        for _ in 1...numberOfPlayers {
+            let typeFighter = typeFighter()
+            let figther = typeFighter.selectedType
+            figther.delegate = self
+            listOfPlayers.append(figther)
+        }
     }
     
-    func startFighting() {
-        while !isGameOver {
-            print("Для старта игры нажмите Enter", terminator: " ")
-            let _ = readLine()
-            print("Раунд - \(round)")
+    
+    /// В функции рандомно выбираются игроки для боя
+    func randomFightersForBattle() {
+        guard listOfPlayers.count >= 2 else {return}
+        
+        // рандомно выбираем индекв игрока
+        let indexFighter1 = Int.random(in: 0..<listOfPlayers.count)
+        var indexFighter2 = Int.random(in: 0..<listOfPlayers.count)
+        
+        // в цикле проверям чтобы боец не дрался сам с собой
+        while indexFighter1 == indexFighter2 {
+            indexFighter2 = Int.random(in: 0..<listOfPlayers.count)
         }
+        
+        let player1 = listOfPlayers[indexFighter1]
+        let player2 = listOfPlayers[indexFighter2]
+        
+    }
+    
+
+    func startFighting() {
+        while listOfPlayers.count > 1 {
+            print("Для старта игры нажмите Enter", terminator: " ")
+            
+            let _ = readLine()
+            
+            print("Раунд - \(round)")
+            
+            // как минимум один игрок должен нанести 15 ударов
+            for _ in 1...15 * listOfPlayers.count {
+                    randomFightersForBattle()
+            }
+            round += 1
+        }
+        print("Победитель турнира: \(listOfPlayers[0]!.name)!")
     }
     
     // устанавливаем тип бойца
@@ -40,7 +94,9 @@ final class Game {
         print("Выберите бойца ")
         TypeFighter.allCases.enumerated().map { "\($0.offset+1): \($0.element)"}.forEach { print($0) }
         
-        guard let indexTypeFighter = Int(readLine() ?? "0"), indexTypeFighter <= TypeFighter.allCases.count else { return typeFighter() }
+        guard let indexTypeFighter = Int(readLine() ?? "0"), indexTypeFighter <= TypeFighter.allCases.count else {
+            return typeFighter()
+        }
         return TypeFighter.allCases[indexTypeFighter-1]
     }
     // выбираем бойца
@@ -60,3 +116,4 @@ extension Game: IsDeadDelegate {
         self.isGameOver = true
     }
 }
+
