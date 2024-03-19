@@ -15,6 +15,7 @@ final class Game {
     
     func startGame() {
         var maxPointsForFighter: Int = 10
+        //MARK: идея передавать сюда количество бойцов, складывать их ы массив и гонять в цикле создавая каждый раз нового
         var countFighter: Int = 0
         while true {
             print("выберите кол-во бойцов на ринге")
@@ -44,6 +45,7 @@ final class Game {
     }
     
     func distributionPoints(player: Fighter?, maxPoints: Int) {
+        //MARK: //как сюда затащить имя бойца введенное в терминале в TypeFighter method namingFighter?
         print("Добро пожаловать на ринг! \(String(describing: player?.name))")
         print(" \(player?.name ?? " ") Перед стартом битвы разделите очки умения персонажа")
         print("У вас \(maxPoints) очков, сколько очков вы распределите для силы")
