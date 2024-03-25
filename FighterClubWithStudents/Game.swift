@@ -18,6 +18,8 @@ final class Game {
     private var player1: Fighter?
     private var player2: Fighter?
     
+    private let maxPoints = 10
+    
     var isGameOver: Bool = false
     var round: Int = 1
     
@@ -29,6 +31,35 @@ final class Game {
 //        player2 = selectedType()
 //        player2?.delegate = self
 //    }
+    
+    func distributionPoints(player: Fighter?, maxPoints: Int) {
+        //MARK: //как сюда затащить имя бойца введенное в терминале в TypeFighter method namingFighter?
+        print("Добро пожаловать на ринг! \(String(describing: player?.name))")
+        print(" \(player?.name ?? " ") Перед стартом битвы разделите очки умения персонажа")
+        print("У вас \(maxPoints) очков, сколько очков вы распределите для силы")
+        var choicePlayer = Int(readLine() ?? "0") ?? 0
+        if isPointsMoreOrEqualMax(maxOint: maxPoints, choicePlayer: choicePlayer) {
+            choicePlayer = maxPoints
+            print("остальные умения распределяются по 0 очков")
+            player?.agility = 0
+            player?.vitality = 0
+        }
+        var remainPoints = maxPoints - choicePlayer
+        print("У вас \(remainPoints) очков, сколько очков вы распределите для ловкости")
+        choicePlayer = Int(readLine() ?? "0") ?? 0
+        if isPointsMoreOrEqualMax(maxOint: maxPoints, choicePlayer: choicePlayer) {
+            choicePlayer = maxPoints
+            print("очки выносливости равны по 0 очков")
+            
+            player?.vitality = 0
+        }
+        remainPoints -= choicePlayer
+        print("для выносливости осталось \(remainPoints) очков")
+    }
+
+    func isPointsMoreOrEqualMax(maxOint: Int, choicePlayer: Int) -> Bool {//бо льше ли выбранное кол-во очков максимального
+        return choicePlayer >= maxOint
+    }
     
     /// Функция реализует  выбор колличества игроков и присваивает это значени переменной numberOfPlayers.
     /// И создается выбранное количестов игроков
@@ -49,6 +80,7 @@ final class Game {
             let figther = typeFighter.selectedType
             figther.delegate = self
             listOfPlayers.append(figther)
+            distributionPoints(player: figther, maxPoints: maxPoints)
         }
     }
     
@@ -81,7 +113,7 @@ final class Game {
             print("Раунд - \(round)")
             
             // как минимум один игрок должен нанести 15 ударов
-            for _ in 1...15 * listOfPlayers.count {
+            for _ in 1...3 * listOfPlayers.count {
                     randomFightersForBattle()
             }
             round += 1
@@ -116,4 +148,3 @@ extension Game: IsDeadDelegate {
         self.isGameOver = true
     }
 }
-
