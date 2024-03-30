@@ -12,6 +12,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
     case dodger
     case ironMan
     case venom
+    case tmnt
     
     var multiply: (strength: Int, vitality: Int, agility: Int) {
         switch self {
@@ -19,6 +20,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .dodger: (5, 5, 10)
         case .ironMan: (7,5,4)
         case .venom: (8, 5, 8)
+        case .tmnt: (7, 7, 7)
         }
     }
     
@@ -28,6 +30,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .dodger: "Ловкач"
         case .ironMan: "Железный человек"
         case .venom: "Веном"
+        case .tmnt: "Черепашка ниндзя"
         }
     }
     
@@ -37,6 +40,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .dodger: "уворачивается от удара, и бьет ответный удар"
         case .ironMan: "может нанести супер удар и при этом теряет собственное здоровье"
         case .venom: "Превращает руки в живое оружие и быстро наносит 5 ударов"
+        case .tmnt: "урон от удара увеличивается в 3 раза"
         }
     } 
     
@@ -54,6 +58,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .dodger: Dodger(name: namingFighter())
         case .ironMan: IronMan(name: namingFighter())
         case .venom: Venom(name: namingFighter())
+        case .tmnt: TMNT(name: namingFighter())
         }
     }
 }

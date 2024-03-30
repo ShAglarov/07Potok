@@ -139,7 +139,12 @@ final class Game {
     }
     
     func calculateDamage(agressor: Fighter, victim: Fighter) {
-        
+        let agressorDamage = agressor.damage
+        if victim.chance > 50 {
+            print("\(victim.name) увернулся от удара")
+        } else {
+            victim.health -= agressorDamage
+        }
     }
 }
 
