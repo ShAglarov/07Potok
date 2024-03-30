@@ -50,6 +50,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .dodger: "стельнул с лука"
         case .ironMan: "стрельнул шаром"
         case .venom: "плюнул кислотой"
+        case .tmnt: "урон от удара увеличивается в 3 раза"
         }
     }
     
