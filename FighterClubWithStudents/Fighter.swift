@@ -41,7 +41,6 @@ class Fighter {
         }
     }
     
-    var delegate: IsDeadDelegate?
     
     var damage = Int()
     private var _health = Int()
@@ -49,18 +48,40 @@ class Fighter {
         get { return _health }
         set {
             _health = newValue
-            if _health <= 0 {
-                delegate?.isDead()
-            }
+            
         }
     }
     var chance = Int()
     
-    internal init(name: String, type: TypeFighter, strength: Int, vitality: Int, agility: Int) {
+    init(name: String, type: TypeFighter, strength: Int, vitality: Int, agility: Int) {
         self.name = name
         self.type = type
         self.vitality = vitality
         self.agility = agility
         self.strength = strength
+    }
+    init() {
+        self.name = "noname"
+        self.type = .warrior
+        self.vitality = 0
+        self.agility = 0
+        self.strength = 0
+    }
+    
+    func showStats(){
+        print("""
+                Имя:\(name)          Класс:\(type.description)
+                Особое умение: \(type.ultimateAbilityDescription)    HP:\(health)
+                """)
+    }
+    
+    func showStats2(){
+        print("""
+                Имя:\(name)          Класс:\(type.description)
+                Сила:\(strength)              Ловкость:\(agility)
+                Живучесть:\(vitality)         Урон:\(damage)
+                Шанс увернуться:\(chance)  HP:\(health)
+                Умение:\(type.ultimateAbilityDescription)
+                """)
     }
 }

@@ -20,4 +20,9 @@ final class Dodger: Fighter, UltimateAbility {
     func ultimateAbility() -> Int {
         return 10
     }
+    
+    func kick() -> Int {
+        let totalDamage: Int = Int.random(in: 0...damage)
+        return totalDamage
+    }
 }
