@@ -20,4 +20,9 @@ final class Warrior: Fighter, UltimateAbility {
     func ultimateAbility() -> Int {
         return damage * 3
     }
+    
+    func kick() -> Int {
+        let totalDamage: Int = Int.random(in: 0...damage)
+        return totalDamage
+    }
 }

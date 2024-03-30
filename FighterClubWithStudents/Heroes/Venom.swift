@@ -29,4 +29,9 @@ final class Venom: Fighter, UltimateAbility {
         }
         return damageAbility * 5
     }
+    
+    func kick() -> Int {
+        let totalDamage: Int = Int.random(in: 0...damage)
+        return totalDamage
+    }
 }
