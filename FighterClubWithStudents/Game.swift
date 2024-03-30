@@ -15,14 +15,14 @@ final class Game {
     var round: Int = 1
     let welcome = "Добро пожаловать на ринг!"
     let errorPoints = "Вы ввели некорректное значение"
-    
+
     func distributionPoints(for player: inout Fighter?, maxPoints: Int, message: String) {
         print("\(message)! \(player?.name ?? "")")
         print("\(player?.name ?? "") Перед стартом битвы разделите очки умения персонажа")
         print("У вас \(maxPoints) очков, сколько очков вы распределите для силы")
-        
+
         var remainPoints = maxPoints
-        
+
         while remainPoints > 0 {
             guard let choicePlayer = Int(readLine() ?? "0"), choicePlayer <= remainPoints else {
                 print(errorPoints)
@@ -31,35 +31,35 @@ final class Game {
             
             player?.strength += choicePlayer
             remainPoints -= choicePlayer
-            
+
             if remainPoints <= 0 {
                 break
             }
-            
+
             print("У вас \(remainPoints) очков, сколько очков вы распределите для ловкости")
             guard let agilityInput = readLine(), let agilityPoints = Int(agilityInput), agilityPoints <= remainPoints else {
                 print(errorPoints)
                 continue
             }
-            
+
             player?.agility += agilityPoints
             remainPoints -= agilityPoints
-            
+
             if remainPoints <= 0 {
                 break
             }
-            
+
             print("У вас \(remainPoints) очков, сколько очков вы распределите для выносливости")
             guard let vitalityInput = readLine(), let vitalityPoints = Int(vitalityInput), vitalityPoints <= remainPoints else {
                 print(errorPoints)
                 continue
             }
-            
+
             player?.vitality += vitalityPoints
             remainPoints -= vitalityPoints
         }
     }
-    
+
     func startGame() {
         var numPlayers = 0
         while numPlayers < 2 {
@@ -72,12 +72,12 @@ final class Game {
         }
         
         numberOfPlayers = numPlayers
-        
+
         for _ in 1...numberOfPlayers {
             let typeFighter = chooseFighter()
             var fighter: Fighter? = typeFighter.selectedType
             distributionPoints(for: &fighter, maxPoints: maxPoints, message: welcome)
-            
+
             if let warrior = fighter as? Warrior {
                 listOfPlayers.append(warrior)
             } else if let dodger = fighter as? Dodger {
@@ -89,7 +89,7 @@ final class Game {
             }
         }
     }
-    
+
     func randomFightersForBattle() {
         for (index, value) in listOfPlayers.enumerated() {
             guard let fighter = value else { return }
@@ -99,10 +99,10 @@ final class Game {
             }
         }
         guard listOfPlayers.count >= 2 else { return }
-        
+
         let indexFighter1 = Int.random(in: 0..<listOfPlayers.count)
         var indexFighter2 = Int.random(in: 0..<listOfPlayers.count)
-        
+
         while indexFighter1 == indexFighter2 {
             indexFighter2 = Int.random(in: 0..<listOfPlayers.count)
         }
@@ -111,7 +111,7 @@ final class Game {
         let player2 = listOfPlayers[indexFighter2] ?? Fighter()
         calculateDamage(agressor: player1, victim: player2)
     }
-    
+
     func startFighting() {
         listOfPlayers.forEach { fighter in
             fighter?.showStats2()
@@ -119,19 +119,19 @@ final class Game {
         }
         print("Для старта игры нажмите Enter", terminator: " ")
         let _ = readLine()
-        
+
         while listOfPlayers.count > 1 {
             let _ = readLine()
             print("Раунд - \(round)")
             listOfPlayers.forEach { print("Имя \($0?.name ?? ""), осталось жизней\($0?.health ?? 0)") }
-            
+
             for _ in 1...(3 * listOfPlayers.count) {
                 randomFightersForBattle()
             }
-            
+
             round += 1
         }
-        
+
         print("Победитель турнира: \(listOfPlayers[0]?.name ?? "" )!")
     }
     
