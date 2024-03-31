@@ -12,12 +12,12 @@ final class TMNT: Fighter, UltimateAbility {
     init(name: String) {
         super.init(name: name,
                    type: .tmnt,
-                   strength: 7,
+                   strength: 8,
                    vitality: 7,
                    agility: 7)
     }
     
     func ultimateAbility() -> Int {
-        return damage * 3
+        return Int.random(in: damage...damage * 3)
     }
 }

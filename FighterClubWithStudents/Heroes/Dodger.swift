@@ -13,12 +13,12 @@ final class Dodger: Fighter, UltimateAbility {
         super.init(name: name,
                    type: .dodger,
                    strength: 5,
-                   vitality: 5,
+                   vitality: 8,
                    agility: 10)
     }
     
     func ultimateAbility() -> Int {
-        return 10
+        return Int.random(in: damage-50...damage+chance)
     }
     
     func kick() -> Int {
