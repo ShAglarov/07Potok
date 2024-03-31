@@ -13,12 +13,12 @@ final class IronMan: Fighter, UltimateAbility {
         super.init(name: name,
                    type: .ironMan,
                    strength: 5,
-                   vitality: 5,
+                   vitality: 8,
                    agility: 10)
     }
     
     func ultimateAbility() -> Int {
-        return 10
+        return Int.random(in: damage...damage+health)
     }
     
     func kick() -> Int {

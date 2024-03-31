@@ -16,11 +16,11 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
     
     var multiply: (strength: Int, vitality: Int, agility: Int) {
         switch self {
-        case .warrior: (10, 10, 2)
-        case .dodger: (5, 5, 10)
-        case .ironMan: (7,5,4)
-        case .venom: (8, 5, 8)
-        case .tmnt: (7, 7, 7)
+        case .warrior: (10, 50, 2)
+        case .dodger: (5, 30, 10)
+        case .ironMan: (10,30,4)
+        case .venom: (8, 30, 8)
+        case .tmnt: (7, 40, 7)
         }
     }
     

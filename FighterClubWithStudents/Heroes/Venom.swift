@@ -13,7 +13,7 @@ final class Venom: Fighter, UltimateAbility {
         super.init(name: name,
                    type: .venom,
                    strength: 9,
-                   vitality: 5,
+                   vitality: 6,
                    agility: 8)
     }
     

@@ -48,7 +48,9 @@ class Fighter {
         get { return _health }
         set {
             _health = newValue
-            
+            if _health < 0 {
+                _health = 0
+            }
         }
     }
     var chance = Int()
@@ -68,11 +70,8 @@ class Fighter {
         self.strength = 0
     }
     
-    func showStats(){
-        print("""
-                Имя:\(name)          Класс:\(type.description)
-                Особое умение: \(type.ultimateAbilityDescription)    HP:\(health)
-                """)
+    func showStats() -> String {
+        "У \(name) осталось жизней :\(health)"
     }
     
     func showStats2(){
