@@ -151,7 +151,7 @@ final class Game {
     func calculateDamage(agressor: Fighter, victim: Fighter) {
         let maxChance = Int.random(in: 1...500)
         if let warrior = agressor as? Warrior {
-            if (victim.chance > Int.random(in: 1..<maxChance)) {
+            if (victim.chance > Int.random(in: 0..<maxChance)) {
                 print(" \(warrior.name) хотел ударить, но \(victim.name) увернулся от удара")
                 print(victim.showStats())
             } else if (victim.chance < warrior.chance)  {

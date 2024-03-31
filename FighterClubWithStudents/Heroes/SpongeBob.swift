@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class SpongeBob: Fighter, UltimateAbility {
+final class SpongeBob: Fighter {
     
     init(name: String) {
         super.init(name: name,
@@ -16,7 +16,7 @@ final class SpongeBob: Fighter, UltimateAbility {
                    vitality: 70,
                    agility: 10)
     }
-    func ultimateAbility() -> Int {
+    override func ultimateAbility() -> Int {
         var damageAbility = 0
         if agility >= strength {
             damageAbility = agility + strength
@@ -27,7 +27,7 @@ final class SpongeBob: Fighter, UltimateAbility {
         return damageAbility
     }
     
-    func kick() -> Int {
+    override func kick() -> Int {
         let simpleKick: Int = Int.random(in: 0...damage)
         return simpleKick
     }
