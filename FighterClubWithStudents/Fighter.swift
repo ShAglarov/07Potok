@@ -11,7 +11,11 @@ protocol UltimateAbility {
     func ultimateAbility() -> Int
 }
 
-class Fighter {
+protocol FightAbility {
+    func kick() -> Int
+}
+
+class Fighter: FightAbility, UltimateAbility {
     
     let name: String
     var type: TypeFighter
@@ -76,11 +80,13 @@ class Fighter {
     
     func showStats2(){
         print("""
-                Имя:\(name)          Класс:\(type.description)
-                Сила:\(strength)              Ловкость:\(agility)
-                Живучесть:\(vitality)         Урон:\(damage)
-                Шанс увернуться:\(chance)  HP:\(health)
+                Имя:\(name)\t\t\tКласс:\(type.description)
+                Сила:\(strength)\t\t\tЛовкость:\(agility)
+                Живучесть:\(vitality)\t\t\tУрон:\(damage)
+                Шанс увернуться:\(chance)\t\t\tHP:\(health)
                 Умение:\(type.ultimateAbilityDescription)
                 """)
     }
+    func kick() -> Int {return 0}
+    func ultimateAbility() -> Int {return 0}
 }

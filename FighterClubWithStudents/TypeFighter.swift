@@ -39,7 +39,7 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
         case .warrior: "впадает в ярость и бьет щитом 3 раза"
         case .dodger: "уворачивается от удара, и бьет ответный удар"
         case .ironMan: "может нанести супер удар и при этом теряет собственное здоровье"
-        case .venom: "Превращает руки в живое оружие и быстро наносит 5 ударов"
+        case .venom: "превращает руки в живое оружие и быстро наносит 5 ударов"
         case .tmnt: "урон от удара увеличивается в 3 раза"
         }
     } 
@@ -47,16 +47,16 @@ enum TypeFighter: CustomStringConvertible, CaseIterable {
     var ultimateKickDesctiption: String {
         switch self {
         case .warrior: "ударил щитом"
-        case .dodger: "стельнул с лука"
+        case .dodger: "стрельнул из лука"
         case .ironMan: "стрельнул шаром"
         case .venom: "плюнул кислотой"
-        case .tmnt: "урон от удара увеличивается в 3 раза"
+        case .tmnt: "нанёс уширо маваши гери"
         }
     }
     
     // имя бойца
     private func namingFighter() -> String {
-        print("Введите имя для своего боца")
+        print("Введите имя для своего боца: ", terminator: "")
         guard let nameFighter = readLine(),
               nameFighter != "" else { return namingFighter() }
         return nameFighter
