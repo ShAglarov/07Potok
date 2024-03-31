@@ -67,7 +67,7 @@ final class Game {
             }
             numPlayers = players
         }
-    
+
         numberOfPlayers = numPlayers
 
         for _ in 1...numberOfPlayers {
@@ -85,6 +85,8 @@ final class Game {
                 listOfPlayers.append(venom)
             } else if let tmnt = fighter as? TMNT {
                 listOfPlayers.append(tmnt)
+            } else if let spongebob = fighter as? SpongeBob {
+                listOfPlayers.append(spongebob)
             }
         }
     }
@@ -148,19 +150,79 @@ final class Game {
     
     func calculateDamage(agressor: Fighter, victim: Fighter) {
         let maxChance = Int.random(in: 1...500)
-        if (victim.chance > Int.random(in: 1..<maxChance)) {
-            print("\(agressor.name) хотел ударить, но \(victim.name) увернулся от удара")
-            print(victim.showStats())
-        } else if (victim.chance < agressor.chance)  {
-            let damage = agressor.kick()
-            victim.health -= damage
-            print("\(agressor.name) напал на \(victim.name) и \(agressor.type.ultimateKickDesctiption) тем самым нанес ему \(damage) урона")
-            print(victim.showStats())
-        } else {
-            let ultimateDamage = agressor.ultimateAbility()
-            victim.health -= ultimateDamage
-            print("\(agressor.name) напал на \(victim.name) и \(agressor.type.ultimateAbilityDescription) тем самым нанес ему \(ultimateDamage) урона")
-            print(victim.showStats())
+        if let warrior = agressor as? Warrior {
+            if (victim.chance > Int.random(in: 1..<maxChance)) {
+                print(" \(warrior.name) хотел ударить, но \(victim.name) увернулся от удара")
+                print(victim.showStats())
+            } else if (victim.chance < warrior.chance)  {
+                let damage = warrior.kick()
+                victim.health -= damage
+                print("\(warrior.name) напал на \(victim.name) и \(warrior.type.ultimateKickDesctiption) тем самым нанес ему \(damage) урона")
+                print(victim.showStats())
+            } else {
+                let ultimateDamage = warrior.ultimateAbility()
+                victim.health -= ultimateDamage
+                print("\(warrior.name) напал на \(victim.name) и \(warrior.type.ultimateAbilityDescription) тем самым нанес ему \(ultimateDamage) урона")
+                print(victim.showStats())
+            }
+        } else if let dodger = agressor as? Dodger {
+            if (victim.chance > Int.random(in: 0..<maxChance)) {
+                print(" \(dodger.name) хотел ударить, но \(victim.name) увернулся от удара")
+                print(victim.showStats())
+            } else if (victim.chance < dodger.chance)  {
+                let damage = dodger.kick()
+                victim.health -= damage
+                print("\(dodger.name) напал на \(victim.name) и \(dodger.type.ultimateKickDesctiption) тем самым нанес ему \(damage) урона")
+                print(victim.showStats())
+            } else {
+                let ultimateDamage = dodger.ultimateAbility()
+                victim.health -= ultimateDamage
+                print("\(dodger.name) напал на \(victim.name) и \(dodger.type.ultimateAbilityDescription) тем самым нанес ему \(ultimateDamage) урона")
+                print(victim.showStats())
+            }
+        } else if let ironMan = agressor as? IronMan {
+            if (victim.chance > Int.random(in: 1..<maxChance)) {
+                print(" \(ironMan.name) хотел ударить, но \(victim.name) увернулся от удара")
+                print(victim.showStats())
+            } else if (victim.chance < ironMan.chance)  {
+                let damage = ironMan.kick()
+                victim.health -= damage
+                print("\(ironMan.name) напал на \(victim.name) и \(ironMan.type.ultimateKickDesctiption) тем самым нанес ему \(damage) урона")
+                print(victim.showStats())
+            } else {
+                let ultimateDamage = ironMan.ultimateAbility()
+                victim.health -= ultimateDamage
+                print("\(ironMan.name) напал на \(victim.name) и \(ironMan.type.ultimateAbilityDescription) тем самым нанес ему \(ultimateDamage) урона")
+                print(victim.showStats())
+            }
+        } else if let venom = agressor as? Venom {
+            if (victim.chance > Int.random(in: 1..<maxChance)) {
+                print(" \(venom.name) хотел ударить, но \(victim.name) увернулся от удара")
+            } else if (victim.chance < venom.chance)  {
+                let damage = venom.kick()
+                victim.health -= damage
+                print("\(venom.name) напал на \(victim.name) и \(venom.type.ultimateKickDesctiption) тем самым нанес ему \(damage) урона")
+                print(victim.showStats())
+            } else {
+                let ultimateDamage = venom.ultimateAbility()
+                victim.health -= ultimateDamage
+                print("\(venom.name) напал на \(victim.name) и \(venom.type.ultimateAbilityDescription) тем самым нанес ему \(ultimateDamage) урона")
+                print(victim.showStats())
+            }
+        } else if let spongebob = agressor as? SpongeBob {
+            if (victim.chance > Int.random(in: 1..<maxChance)) {
+                print(" \(spongebob.name) хотел ударить, но \(victim.name) увернулся от удара")
+            } else if (victim.chance < spongebob.chance)  {
+                let damage = spongebob.kick()
+                victim.health -= damage
+                print("\(spongebob.name) напал на \(victim.name) и \(spongebob.type.ultimateKickDesctiption) тем самым нанес ему \(damage) урона")
+                print(victim.showStats())
+            } else {
+                let ultimateDamage = spongebob.ultimateAbility()
+                victim.health -= ultimateDamage
+                print("\(spongebob.name) напал на \(victim.name) и \(spongebob.type.ultimateAbilityDescription) тем самым нанес ему \(ultimateDamage) урона")
+                print(victim.showStats())
+            }
         }
     }
 }
