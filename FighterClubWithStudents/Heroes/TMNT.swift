@@ -7,17 +7,21 @@
 
 import Foundation
 
-final class TMNT: Fighter, UltimateAbility {
+final class TMNT: Fighter {
     
     init(name: String) {
         super.init(name: name,
                    type: .tmnt,
-                   strength: 8,
+                   strength: 7,
                    vitality: 7,
                    agility: 7)
     }
     
-    func ultimateAbility() -> Int {
-        return Int.random(in: damage...damage * 3)
+    override func ultimateAbility() -> Int {
+        return Int.random(in: 0...damage) * 3
+    }
+    
+    override func kick() -> Int {
+        return Int.random(in: 0...damage)
     }
 }

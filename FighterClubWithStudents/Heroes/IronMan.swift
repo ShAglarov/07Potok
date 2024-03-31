@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class IronMan: Fighter, UltimateAbility {
+final class IronMan: Fighter {
     
     init(name: String) {
         super.init(name: name,
@@ -17,11 +17,11 @@ final class IronMan: Fighter, UltimateAbility {
                    agility: 10)
     }
     
-    func ultimateAbility() -> Int {
+    override func ultimateAbility() -> Int {
         return Int.random(in: damage...damage+health)
     }
     
-    func kick() -> Int {
+    override func kick() -> Int {
         let totalDamage: Int = Int.random(in: 0...damage)
         return totalDamage
     }

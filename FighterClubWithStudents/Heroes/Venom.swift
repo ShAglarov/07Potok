@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Venom: Fighter, UltimateAbility {
+final class Venom: Fighter {
     
     init(name: String) {
         super.init(name: name,
@@ -17,7 +17,7 @@ final class Venom: Fighter, UltimateAbility {
                    agility: 8)
     }
     
-    func ultimateAbility() -> Int {
+    override func ultimateAbility() -> Int {
         var damageAbility = 0
         if strength > agility {
             damageAbility = (damage * strength) / 2
@@ -30,7 +30,7 @@ final class Venom: Fighter, UltimateAbility {
         return damageAbility * 5
     }
     
-    func kick() -> Int {
+    override func kick() -> Int {
         let totalDamage: Int = Int.random(in: 0...damage)
         return totalDamage
     }
