@@ -7,7 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11E0AB6A2BAF05950054C806 /* Venom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E0AB692BAF05950054C806 /* Venom.swift */; };
 		4B5541312B9F4E680065C62E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541302B9F4E680065C62E /* main.swift */; };
+		4B5541382B9F4F0D0065C62E /* Fighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541372B9F4F0D0065C62E /* Fighter.swift */; };
+		4B55413A2B9F4F3E0065C62E /* Warrior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541392B9F4F3E0065C62E /* Warrior.swift */; };
+		4B55413C2B9F4F500065C62E /* Dodger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55413B2B9F4F500065C62E /* Dodger.swift */; };
+		4B55413F2B9F4FAC0065C62E /* IronMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B55413E2B9F4FAC0065C62E /* IronMan.swift */; };
+		4B5541412B9F4FCF0065C62E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541402B9F4FCF0065C62E /* Game.swift */; };
+		4B5541432B9F4FEC0065C62E /* TypeFighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5541422B9F4FEC0065C62E /* TypeFighter.swift */; };
+		4BB15B762BB8BBDA001A629E /* TMNT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB15B752BB8BBDA001A629E /* TMNT.swift */; };
+		5784C6B72BB991DF008A7E9A /* SpongeBob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5784C6B62BB991DF008A7E9A /* SpongeBob.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +32,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		11E0AB692BAF05950054C806 /* Venom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Venom.swift; sourceTree = "<group>"; };
 		4B55412D2B9F4E680065C62E /* FighterClubWithStudents */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FighterClubWithStudents; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B5541302B9F4E680065C62E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4B5541372B9F4F0D0065C62E /* Fighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fighter.swift; sourceTree = "<group>"; };
+		4B5541392B9F4F3E0065C62E /* Warrior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Warrior.swift; sourceTree = "<group>"; };
+		4B55413B2B9F4F500065C62E /* Dodger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dodger.swift; sourceTree = "<group>"; };
+		4B55413E2B9F4FAC0065C62E /* IronMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IronMan.swift; sourceTree = "<group>"; };
+		4B5541402B9F4FCF0065C62E /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		4B5541422B9F4FEC0065C62E /* TypeFighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeFighter.swift; sourceTree = "<group>"; };
+		4BB15B752BB8BBDA001A629E /* TMNT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMNT.swift; sourceTree = "<group>"; };
+		5784C6B62BB991DF008A7E9A /* SpongeBob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpongeBob.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +76,25 @@
 			isa = PBXGroup;
 			children = (
 				4B5541302B9F4E680065C62E /* main.swift */,
+				4B5541372B9F4F0D0065C62E /* Fighter.swift */,
+				4B5541402B9F4FCF0065C62E /* Game.swift */,
+				4B5541422B9F4FEC0065C62E /* TypeFighter.swift */,
+				4B55413D2B9F4F610065C62E /* Heroes */,
 			);
 			path = FighterClubWithStudents;
+			sourceTree = "<group>";
+		};
+		4B55413D2B9F4F610065C62E /* Heroes */ = {
+			isa = PBXGroup;
+			children = (
+				4B5541392B9F4F3E0065C62E /* Warrior.swift */,
+				4B55413B2B9F4F500065C62E /* Dodger.swift */,
+				4B55413E2B9F4FAC0065C62E /* IronMan.swift */,
+				11E0AB692BAF05950054C806 /* Venom.swift */,
+				4BB15B752BB8BBDA001A629E /* TMNT.swift */,
+				5784C6B62BB991DF008A7E9A /* SpongeBob.swift */,
+			);
+			path = Heroes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,7 +155,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B55413C2B9F4F500065C62E /* Dodger.swift in Sources */,
+				5784C6B72BB991DF008A7E9A /* SpongeBob.swift in Sources */,
+				4B5541412B9F4FCF0065C62E /* Game.swift in Sources */,
+				4B55413A2B9F4F3E0065C62E /* Warrior.swift in Sources */,
+				11E0AB6A2BAF05950054C806 /* Venom.swift in Sources */,
+				4BB15B762BB8BBDA001A629E /* TMNT.swift in Sources */,
 				4B5541312B9F4E680065C62E /* main.swift in Sources */,
+				4B5541432B9F4FEC0065C62E /* TypeFighter.swift in Sources */,
+				4B55413F2B9F4FAC0065C62E /* IronMan.swift in Sources */,
+				4B5541382B9F4F0D0065C62E /* Fighter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
